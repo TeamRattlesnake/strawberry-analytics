@@ -269,3 +269,34 @@ class Database:
         except Exception as exc:
             raise DBException(f"Error in get_value: {exc}") from exc
 
+    def get_all(self):
+        try:
+            with self.engine.connect() as connection:
+                select_query = select(self.generated_data)
+
+                response = connection.execute(select_query).fetchall()
+
+                result = []
+                for row in response:
+                    result += [
+                        GenerateResultInfo(
+                            post_id=row[0],
+                            user_id=row[1],
+                            method=row[2],
+                            hint=row[3],
+                            text=row[4],
+                            rating=row[5],
+                            date=row[6],
+                            group_id=row[7],
+                            status=row[8],
+                            gen_time=row[9],
+                            platform=row[10],
+                            published=row[11],
+                            hidden=row[12],
+                        )
+                    ]
+                return result
+
+        except Exception as exc:
+            raise DBException(f"Error in get_users_texts: {exc}") from exc
+
