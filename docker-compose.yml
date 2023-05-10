@@ -83,5 +83,15 @@ services:
       context: images/airflow-daily-graph
     image: airflow-daily-graph
 
+  monthly:
+    build:
+      context: images/airflow-monthly
+    image: airflow-monthly
+
+  graph:
+    build:
+      context: images/airflow-monthly-graph
+    image: airflow-monthly-graph
+
 volumes:
   logs:

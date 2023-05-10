@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 
-def generate_daily_graph(output_dir="data/results/daily"):
+def generate_daily_graph(input_dir="data/tmp", output_dir="data/results/daily"):
     os.makedirs(output_dir, exist_ok=True)
-    df = pd.read_csv(f"{output_dir}/daily-{datetime.today().strftime('%d-%m-%Y')}.csv")
+    df = pd.read_csv(f"{input_dir}/daily-{datetime.today().strftime('%d-%m-%Y')}.csv")
     labels = list(df.columns)
     sizes = df.loc[0, :].values.flatten().tolist()
 
