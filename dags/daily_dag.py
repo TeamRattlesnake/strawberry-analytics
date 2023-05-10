@@ -31,4 +31,14 @@ with DAG(
         mounts=[Mount(source=DATA_DIR, target='/data', type='bind')]
     )
 
-    daily
+    pie = DockerOperator(
+        image='airflow-daily-graph',
+        command='--output-dir /data/raw/{{ ds }}',
+        network_mode='bridge',
+        task_id='docker-airflow-daily-pie',
+        do_xcom_push=False,
+        auto_remove=True,
+        mounts=[Mount(source=DATA_DIR, target='/data', type='bind')]
+    )
+
+    daily >> pie
