@@ -78,5 +78,10 @@ services:
       context: images/airflow-daily
     image: airflow-daily
 
+  pie:
+    build:
+      context: images/airflow-daily-graph
+    image: airflow-daily-graph
+
 volumes:
   logs:
