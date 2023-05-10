@@ -202,11 +202,13 @@ class Database:
                         (self.generated_data.c.user_id == user_id)
                         & (self.generated_data.c.group_id == group_id)
                         & (self.generated_data.c.status == 1)
+                        & (self.generated_data.c.hidden == 0)
                     )
                 else:
                     select_query = select(self.generated_data).where(
                         (self.generated_data.c.user_id == user_id)
                         & (self.generated_data.c.status == 1)
+                        & (self.generated_data.c.hidden == 0)
                     )
 
                 response = connection.execute(select_query).fetchall()
@@ -227,6 +229,7 @@ class Database:
                             gen_time=row[9],
                             platform=row[10],
                             published=row[11],
+                            hidden=row[12],
                         )
                     ]
                 return result
@@ -265,34 +268,4 @@ class Database:
                 return text
         except Exception as exc:
             raise DBException(f"Error in get_value: {exc}") from exc
-
-    def get_methods_cnt(self) -> list[GenerateMethodCount]:
-        """
-                Выбирает всю информацию о текстах, сгенерированных юзером
-                """
-        try:
-            with self.engine.connect() as connection:
-
-                select_query = select(
-                    [self.generated_data.c.method, func.count(self.generated_data.c.method)]
-                ).group_by(
-                    self.generated_data.c.method
-                ).having(
-                    self.generated_data.c.unix_date >= func.current_timestamp() - 86400
-                )
-
-                response = connection.execute(select_query).fetchall()
-
-                result = []
-                for row in response:
-                    result += [
-                        GenerateMethodCount(
-                            method=row[0],
-                            cnt=row[1],
-                        )
-                    ]
-                return result
-
-        except Exception as exc:
-            raise DBException(f"Error in get_users_texts: {exc}") from exc
 

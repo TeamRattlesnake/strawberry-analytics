@@ -12,7 +12,7 @@ NAME_OF_GENERATED_DATA = "generated_data.csv"
 def generate_daily_analytics(output_dir="data"):
     os.makedirs(output_dir, exist_ok=True)
     db = Database(user, password, database, port, host)
-    methods = db.get_methods_cnt()
+    methods = ['hi']
     print(methods)
 
 
