@@ -1,6 +1,7 @@
 import os
+import pandas as pd
 
-
+from datetime import datetime
 from database import Database
 from config import *
 
@@ -13,7 +14,11 @@ def generate_daily_analytics(output_dir="data"):
     os.makedirs(output_dir, exist_ok=True)
     db = Database(user, password, database, port, host)
     a = db.get_all()
-    print(a)
+    methods = {}
+    for item in a:
+        methods[item.method] = methods.get(item.method, 0) + 1
+    df = pd.DataFrame(methods)
+    df.to_csv(f"{output_dir}/daily-{datetime.today().strftime('%d-%m-%Y')}.csv")
 
 
 if __name__ == "__main__":

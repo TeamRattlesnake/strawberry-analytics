@@ -186,57 +186,6 @@ class Database:
         except Exception as exc:
             raise DBException(f"Error in change_rating: {exc}") from exc
 
-    def get_users_texts(
-        self,
-        group_id: int,
-        user_id: int,
-    ) -> list[GenerateResultInfo]:
-        """
-        Выбирает всю информацию о текстах, сгенерированных юзером
-        """
-        try:
-            with self.engine.connect() as connection:
-
-                if group_id:
-                    select_query = select(self.generated_data).where(
-                        (self.generated_data.c.user_id == user_id)
-                        & (self.generated_data.c.group_id == group_id)
-                        & (self.generated_data.c.status == 1)
-                        & (self.generated_data.c.hidden == 0)
-                    )
-                else:
-                    select_query = select(self.generated_data).where(
-                        (self.generated_data.c.user_id == user_id)
-                        & (self.generated_data.c.status == 1)
-                        & (self.generated_data.c.hidden == 0)
-                    )
-
-                response = connection.execute(select_query).fetchall()
-
-                result = []
-                for row in response:
-                    result += [
-                        GenerateResultInfo(
-                            post_id=row[0],
-                            user_id=row[1],
-                            method=row[2],
-                            hint=row[3],
-                            text=row[4],
-                            rating=row[5],
-                            date=row[6],
-                            group_id=row[7],
-                            status=row[8],
-                            gen_time=row[9],
-                            platform=row[10],
-                            published=row[11],
-                            hidden=row[12],
-                        )
-                    ]
-                return result
-
-        except Exception as exc:
-            raise DBException(f"Error in get_users_texts: {exc}") from exc
-
     def get_status(self, text_id: int) -> str:
         """
         Получает статус генерации
@@ -269,7 +218,7 @@ class Database:
         except Exception as exc:
             raise DBException(f"Error in get_value: {exc}") from exc
 
-    def get_all(self):
+    def get_all(self) -> list[GenerateResultInfo]:
         try:
             with self.engine.connect() as connection:
                 select_query = select(self.generated_data)
@@ -292,7 +241,6 @@ class Database:
                             gen_time=row[9],
                             platform=row[10],
                             published=row[11],
-                            hidden=row[12],
                         )
                     ]
                 return result
