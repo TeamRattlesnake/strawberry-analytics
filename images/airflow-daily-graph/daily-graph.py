@@ -13,7 +13,7 @@ def generate_daily_graph(input_dir="data/tmp", output_dir="data/results/daily"):
     sizes = df.loc[0, :].values.flatten().tolist()
 
     fig, ax = plt.subplots()
-    ax.pie(sizes, labels=labels)
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%')
 
     fig.savefig(f"{output_dir}/{datetime.today().strftime('%d-%m-%Y')}.png")
 
