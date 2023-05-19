@@ -93,5 +93,15 @@ services:
       context: images/airflow-monthly-graph
     image: airflow-monthly-graph
 
+  rating:
+    build:
+      context: images/airflow-service-rating
+    image: airflow-service-rating
+
+  rating-graph:
+    build:
+      context: images/airflow-service-rating-graph
+    image: airflow-service-rating-graph
+
 volumes:
   logs:

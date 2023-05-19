@@ -11,7 +11,7 @@ def generate_monthly_analytics(output_dir="data/tmp"):
     db = Database(user, password, database, port, host)
     a = db.get_all()
     month_ago = time.time() - 60 * 60 * 24 * 30
-    days = [(i, 0) for i in range(1, 31)]
+    days = [[i, 0] for i in range(1, 31)]
 
     for item in a:
         if int(item.date) < month_ago:
