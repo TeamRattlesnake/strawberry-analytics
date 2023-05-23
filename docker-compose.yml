@@ -11,8 +11,8 @@ x-environment: &airflow_environment
   - AIRFLOW__WEBSERVER__BASE_URL=http://127.0.0.1:14566
   - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
   - AIRFLOW_VAR_DATA_DIR=${DATA_DIR}
-  - FERNET_KEY=rDrq5JaVk_ul1ba6FqtfTgT2Z6LhvBQRvy75kgn42aY=
-  - DATA_DIR=/home/nokrolikno/strawberry-analytics/data
+#  - FERNET_KEY=${FERNET_KEY}
+  - DATA_DIR=${DATA_DIR}
 
 x-airflow-image: &airflow_image apache/airflow:2.3.0-python3.8
 # ====================================== /AIRFLOW ENVIRONMENT VARIABLES ======================================
