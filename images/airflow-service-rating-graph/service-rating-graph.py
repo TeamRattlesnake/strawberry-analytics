@@ -4,8 +4,12 @@ import matplotlib.pyplot as plt
 
 def generate_service_rating_graph(input_dir="data/tmp", output_dir="data/results/daily"):
     fig = plt.figure()
-    df = pd.read_csv(f"{output_dir}/service-rating.csv")
-    ax = df.plot.bar(x="method", y="rating", rot=0)
+    df = pd.read_csv(f"{input_dir}/service-rating.csv")
+    labels = df.columns
+    values = df.iloc[0]
+    fig.set_figwidth(12)
+    fig.set_figheight(8)
+    ax = plt.bar(labels, values, width=0.7)
     fig.savefig(f"{output_dir}/rating.png")
 
 
